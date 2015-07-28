@@ -10,21 +10,21 @@ var
   trumpet = require('trumpet')
 ;
 
-// Exercise 8
-var
-  tr = trumpet(),
-  stream = tr.select('.loud').createStream(),
-  write = function (buf, _, next) {
-    this.push(buf.toString().toUpperCase());
-    next();
-  }
-;
+// Exercise 10
+// var
+//   tr = trumpet(),
+//   stream = tr.select('.loud').createStream(),
+//   write = function (buf, _, next) {
+//     this.push(buf.toString().toUpperCase());
+//     next();
+//   }
+// ;
+//
+// stream.pipe(through(write)).pipe(stream);
+//
+// process.stdin.pipe(tr).pipe(process.stdout);
 
-stream.pipe(through(write)).pipe(stream);
-
-process.stdin.pipe(tr).pipe(process.stdout);
-
-// Exercise 8
+// Exercise 9
 // var stream = ws('ws://localhost:8099');
 //
 // stream.write('hello\n');
