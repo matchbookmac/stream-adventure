@@ -4,37 +4,47 @@ var
   through = require('through2'),
   split   = require('split'),
   concat  = require('concat-stream'),
-  http    = require('http')
+  http    = require('http'),
+  request = require('request')
 ;
 
-// Exercise 7
-var
-  port   = Number(process.argv[2]),
-  server = http.createServer(function (req, res) {
-    req.method != 'POST'
-      ? wrongMethod(res)
-      : pipeResponse(req, res)
-    ;
-  }),
-  write  = function (buf, _, next) {
-    this.push(buf.toString().toUpperCase());
-    next();
-  },
-  pipeResponse = function (req, res) {
-    res.writeHead(200, {
-      'Content-Type': 'text-plain'
-    });
-    req.pipe(through(write)).pipe(res);
-  }
-  wrongMethod = function (res) {
-    res.writeHead(405, {
-      'Content-Type': 'text-plain',
-      'Allow': 'POST'
-    });
-    res.end('Plz send post');
-  }
+// Exercise 8
+// var req = request.post('http://localhost:8099');
+//
+// process.stdin.pipe(req).pipe(process.stdout);
 
-server.listen(port)
+// Exercise 7
+// var
+//   port         = Number(process.argv[2]),
+//
+//   server       = http.createServer(function (req, res) {
+//     req.method != 'POST'
+//       ? wrongMethod(res)
+//       : pipeResponse(req, res)
+//     ;
+//   }),
+//
+//   write        = function (buf, _, next) {
+//     this.push(buf.toString().toUpperCase());
+//     next();
+//   },
+//
+//   pipeResponse = function (req, res) {
+//     res.writeHead(200, {
+//       'Content-Type': 'text-plain'
+//     });
+//     req.pipe(through(write)).pipe(res);
+//   },
+//
+//   wrongMethod  = function (res) {
+//     res.writeHead(405, {
+//       'Content-Type': 'text-plain',
+//       'Allow': 'POST'
+//     });
+//     res.end('Plz send post');
+//   }
+//
+// server.listen(port)
 
 // Exercise 6
 // function reverseStream(body) {
