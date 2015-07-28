@@ -1,0 +1,22 @@
+{
+  "name": "stream-adventure",
+  "version": "0.0.1",
+  "description": "Learning exercise for node",
+  "main": "program.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matchbookmac/stream-adventure.git"
+  },
+  "author": "Ian C MacDonald",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matchbookmac/stream-adventure/issues"
+  },
+  "homepage": "https://github.com/matchbookmac/stream-adventure",
+  "dependencies": {
+    "through2": "^2.0.0"
+  }
+}
