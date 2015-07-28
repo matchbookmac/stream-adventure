@@ -5,8 +5,14 @@ var
   split   = require('split'),
   concat  = require('concat-stream'),
   http    = require('http'),
-  request = require('request')
+  request = require('request'),
+  ws      = require('websocket-stream')
 ;
+
+// Exercise 8
+var stream = ws('ws://localhost:8099');
+
+stream.write('hello\n');
 
 // Exercise 8
 // var req = request.post('http://localhost:8099');
