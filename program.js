@@ -6,13 +6,28 @@ var
   concat  = require('concat-stream'),
   http    = require('http'),
   request = require('request'),
-  ws      = require('websocket-stream')
+  ws      = require('websocket-stream'),
+  trumpet = require('trumpet')
 ;
 
 // Exercise 8
-var stream = ws('ws://localhost:8099');
+var
+  tr = trumpet(),
+  stream = tr.select('.loud').createStream(),
+  write = function (buf, _, next) {
+    this.push(buf.toString().toUpperCase());
+    next();
+  }
+;
 
-stream.write('hello\n');
+stream.pipe(through(write)).pipe(stream);
+
+process.stdin.pipe(tr).pipe(process.stdout);
+
+// Exercise 8
+// var stream = ws('ws://localhost:8099');
+//
+// stream.write('hello\n');
 
 // Exercise 8
 // var req = request.post('http://localhost:8099');

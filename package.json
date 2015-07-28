@@ -21,6 +21,7 @@
     "request": "^2.60.0",
     "split": "^1.0.0",
     "through2": "^2.0.0",
+    "trumpet": "^1.7.1",
     "websocket-stream": "^1.5.1"
   }
 }
