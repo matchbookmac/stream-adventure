@@ -9,17 +9,36 @@ var
   ws       = require('websocket-stream'),
   trumpet  = require('trumpet'),
   cp       = require('child_process'),
-  duplexer = require('duplexer')
+  duplexer = require('duplexer2')
 ;
 
-// Exercise 11
-var spawn = cp.spawn;
+// Exercise 12
+module.exports = function (counter) {
 
-module.exports = function (cmd, args) {
-  var child = spawn(cmd, args);
-  return duplexer(child.stdin, child.stdout)
+  // counter.pipe(process.stdout);
+
+  countries = {};
+
+  function write(buf, _, next) {
+    // console.log(buf);
+    // input = buf
+    // count[input.country] === null
+    //   ? count[input.country] = 1
+    //   : count[input.country] =+ 1
+    // ;
+    next();
+  }
+
+  return duplexer(through(write), counter)
 }
 
+// Exercise 11
+// var spawn = cp.spawn;
+//
+// module.exports = function (cmd, args) {
+//   var child = spawn(cmd, args);
+//   return duplexer(child.stdin, child.stdout)
+// }
 
 // Exercise 10
 // var
