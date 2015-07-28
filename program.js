@@ -1,14 +1,25 @@
 var
-  fs      = require('fs'),
-  path    = require('path'),
-  through = require('through2'),
-  split   = require('split'),
-  concat  = require('concat-stream'),
-  http    = require('http'),
-  request = require('request'),
-  ws      = require('websocket-stream'),
-  trumpet = require('trumpet')
+  fs       = require('fs'),
+  path     = require('path'),
+  through  = require('through2'),
+  split    = require('split'),
+  concat   = require('concat-stream'),
+  http     = require('http'),
+  request  = require('request'),
+  ws       = require('websocket-stream'),
+  trumpet  = require('trumpet'),
+  cp       = require('child_process'),
+  duplexer = require('duplexer')
 ;
+
+// Exercise 11
+var spawn = cp.spawn;
+
+module.exports = function (cmd, args) {
+  var child = spawn(cmd, args);
+  return duplexer(child.stdin, child.stdout)
+}
+
 
 // Exercise 10
 // var

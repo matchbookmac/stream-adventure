@@ -18,6 +18,7 @@
   "homepage": "https://github.com/matchbookmac/stream-adventure",
   "dependencies": {
     "concat-stream": "^1.5.0",
+    "duplexer": "^0.1.1",
     "request": "^2.60.0",
     "split": "^1.0.0",
     "through2": "^2.0.0",
