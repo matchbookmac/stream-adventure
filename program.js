@@ -3,22 +3,52 @@ var
   path    = require('path'),
   through = require('through2'),
   split   = require('split'),
-  concat  = require('concat-stream')
+  concat  = require('concat-stream'),
+  http    = require('http')
 ;
+
+// Exercise 7
+var
+  port   = Number(process.argv[2]),
+  server = http.createServer(function (req, res) {
+    req.method != 'POST'
+      ? wrongMethod(res)
+      : pipeResponse(req, res)
+    ;
+  }),
+  write  = function (buf, _, next) {
+    this.push(buf.toString().toUpperCase());
+    next();
+  },
+  pipeResponse = function (req, res) {
+    res.writeHead(200, {
+      'Content-Type': 'text-plain'
+    });
+    req.pipe(through(write)).pipe(res);
+  }
+  wrongMethod = function (res) {
+    res.writeHead(405, {
+      'Content-Type': 'text-plain',
+      'Allow': 'POST'
+    });
+    res.end('Plz send post');
+  }
+
+server.listen(port)
 
 // Exercise 6
-function reverseStream(body) {
-  console.log(
-    body.toString()
-      .split('')
-      .reverse()
-      .join('')
-  );
-}
-
-process.stdin
-  .pipe(concat(reverseStream))
-;
+// function reverseStream(body) {
+//   console.log(
+//     body.toString()
+//       .split('')
+//       .reverse()
+//       .join('')
+//   );
+// }
+//
+// process.stdin
+//   .pipe(concat(reverseStream))
+// ;
 
 // Exercise 5
 // var
