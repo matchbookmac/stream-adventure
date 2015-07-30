@@ -11,38 +11,48 @@ var
   cp       = require('child_process'),
   duplexer = require('duplexer2'),
   combine  = require('stream-combiner'),
-  zlib     = require('zlib')
+  zlib     = require('zlib'),
+  crypto   = require('crypto')
 ;
 
+// Exercise 14
+var
+  passkey = process.argv[2],
+  encryption = 'aes256',
+  stream  = crypto.createDecipher(encryption, passkey)
+;
+process.stdin.pipe(stream).pipe(process.stdout);
+
+
 // Exercise 13
-module.exports = function () {
-  var
-    group = through(write, end),
-    current
-  ;
-
-  function write(line, _, next) {
-    if (line.length === 0) return next();
-    var row = JSON.parse(line);
-
-    if (row.type === 'genre') {
-      if (current) {
-        this.push(JSON.stringify(current) + '\n')
-      }
-      current = { name: row.name, books: [] };
-    } else if (row.type === 'book') {
-      current.books.push(row.name);
-    }
-    next();
-  }
-  function end(next) {
-    if (current) {
-      this.push(JSON.stringify(current) + '\n');
-    }
-    next();
-  }
-  return combine(split(), group, zlib.createGzip());
-}
+// module.exports = function () {
+//   var
+//     group = through(write, end),
+//     current
+//   ;
+//
+//   function write(line, _, next) {
+//     if (line.length === 0) return next();
+//     var row = JSON.parse(line);
+//
+//     if (row.type === 'genre') {
+//       if (current) {
+//         this.push(JSON.stringify(current) + '\n')
+//       }
+//       current = { name: row.name, books: [] };
+//     } else if (row.type === 'book') {
+//       current.books.push(row.name);
+//     }
+//     next();
+//   }
+//   function end(next) {
+//     if (current) {
+//       this.push(JSON.stringify(current) + '\n');
+//     }
+//     next();
+//   }
+//   return combine(split(), group, zlib.createGzip());
+// }
 
 // Exercise 12
 // module.exports = function (counter) {
