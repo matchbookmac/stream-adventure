@@ -1,7 +1,7 @@
 var
   fs       = require('fs'),
   path     = require('path'),
-  through  = require('through2'),
+  through  = require('through2').obj,
   split    = require('split'),
   concat   = require('concat-stream'),
   http     = require('http'),
@@ -14,22 +14,21 @@ var
 
 // Exercise 12
 module.exports = function (counter) {
-
-  // counter.pipe(process.stdout);
-
-  countries = {};
+  var
+    counts = {},
+    input = through(write, end)
+  ;
+  return duplexer(input, counter);
 
   function write(buf, _, next) {
-    // console.log(buf);
-    // input = buf
-    // count[input.country] === null
-    //   ? count[input.country] = 1
-    //   : count[input.country] =+ 1
-    // ;
+    counts[buf.country] = (counts[buf.country] || 0) + 1;
     next();
   }
 
-  return duplexer(through(write), counter)
+  function end(done) {
+    counter.setCounts(counts);
+    done();
+  }
 }
 
 // Exercise 11
