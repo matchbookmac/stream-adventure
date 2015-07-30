@@ -9,27 +9,59 @@ var
   ws       = require('websocket-stream'),
   trumpet  = require('trumpet'),
   cp       = require('child_process'),
-  duplexer = require('duplexer2')
+  duplexer = require('duplexer2'),
+  combine  = require('stream-combiner'),
+  zlib     = require('zlib')
 ;
 
-// Exercise 12
-module.exports = function (counter) {
+// Exercise 13
+module.exports = function () {
   var
-    counts = {},
-    input = through(write, end)
+    group = through(write, end),
+    current
   ;
-  return duplexer(input, counter);
 
-  function write(buf, _, next) {
-    counts[buf.country] = (counts[buf.country] || 0) + 1;
+  function write(line, _, next) {
+    if (line.length === 0) return next();
+    var row = JSON.parse(line);
+
+    if (row.type === 'genre') {
+      if (current) {
+        this.push(JSON.stringify(current) + '\n')
+      }
+      current = { name: row.name, books: [] };
+    } else if (row.type === 'book') {
+      current.books.push(row.name);
+    }
     next();
   }
-
-  function end(done) {
-    counter.setCounts(counts);
-    done();
+  function end(next) {
+    if (current) {
+      this.push(JSON.stringify(current) + '\n');
+    }
+    next();
   }
+  return combine(split(), group, zlib.createGzip());
 }
+
+// Exercise 12
+// module.exports = function (counter) {
+//   var
+//     counts = {},
+//     input = through(write, end)
+//   ;
+//   return duplexer(input, counter);
+//
+//   function write(buf, _, next) {
+//     counts[buf.country] = (counts[buf.country] || 0) + 1;
+//     next();
+//   }
+//
+//   function end(done) {
+//     counter.setCounts(counts);
+//     done();
+//   }
+// }
 
 // Exercise 11
 // var spawn = cp.spawn;
