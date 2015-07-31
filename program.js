@@ -16,12 +16,12 @@ var
 ;
 
 // Exercise 14
-var
-  passkey = process.argv[2],
-  encryption = 'aes256',
-  stream  = crypto.createDecipher(encryption, passkey)
-;
-process.stdin.pipe(stream).pipe(process.stdout);
+// var
+//   passkey = process.argv[2],
+//   encryption = 'aes256',
+//   stream  = crypto.createDecipher(encryption, passkey)
+// ;
+// process.stdin.pipe(stream).pipe(process.stdout);
 
 
 // Exercise 13
